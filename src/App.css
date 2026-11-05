@@ -97,7 +97,7 @@ input {
 .info-produto > p > span {
   color: rgb(204, 221, 50);
 }
-.input-product {
+.inputs-produto {
   display: flex;
   flex-direction: column;
   gap: 20px;

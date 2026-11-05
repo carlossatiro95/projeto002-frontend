@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import CardProduto from "./componentes/CardProduto";
 
 function App() {
   const [produto, setProduto] = useState({
@@ -41,6 +42,57 @@ function App() {
     } catch (error) {}
   }
 
+  async function editarProduto(idProdutoEditado, produtoEditado) {
+    try {
+      const resultado = await fetch(
+        `http://localhost:3000/produtos/${idProdutoEditado}`,
+        {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(produtoEditado),
+        },
+      );
+
+      const produtoAtualizado = await resultado.json();
+
+      setListaProdutos(
+        listaProdutos.map((produtoMap) =>
+          produtoMap.id === produtoAtualizado.id
+            ? produtoAtualizado
+            : produtoMap,
+        ),
+      );
+    } catch (error) {}
+  }
+
+  async function excluirProduto(idProdutoExcluido) {
+    try {
+      await fetch(`http://localhost:3000/produtos/${idProdutoExcluido}`, {
+        method: "DELETE",
+      });
+
+      setListaProdutos(
+        listaProdutos.filter(
+          (produtoFilter) => produtoFilter.id !== idProdutoExcluido,
+        ),
+      );
+    } catch (error) {}
+  }
+
+  async function excluirTudo() {
+    try {
+      await Promise.all(
+        listaProdutos.map((produtoMap) =>
+          fetch(`http://localhost:3000/produtos/${produtoMap.id}`, {
+            method: "DELETE",
+          }),
+        ),
+      );
+
+      setListaProdutos([]);
+    } catch (error) {}
+  }
+
   return (
     <div className="container">
       <div className="box-form">
@@ -67,21 +119,17 @@ function App() {
 
       <div className="box-produtos">
         {listaProdutos.map((produtoMap) => (
-          <div className="produto">
-            <div className="info-produto">
-              <p>Nome: {produtoMap.nome}</p>
-              <p>Preço: {produtoMap.preço}</p>
-            </div>
-
-            <div className="buttons-action">
-              <button>Editar</button>
-              <button>Deletar</button>
-            </div>
-          </div>
+          <CardProduto
+            produto={produtoMap}
+            editarProduto={editarProduto}
+            excluirProduto={excluirProduto}
+          />
         ))}
       </div>
       {listaProdutos.length > 0 && (
-        <button className="deletar-tudo">Deletar Tudo</button>
+        <button className="deletar-tudo" onClick={excluirTudo}>
+          Deletar Tudo
+        </button>
       )}
     </div>
   );
