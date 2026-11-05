@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CardProduto({ produto, editarProduto, excluirProduto }) {
+function CardProduto({ produto, editarProduto, excluirProduto, darkMode }) {
   const [produtoEditado, setProdutoEditado] = useState({
     nome: produto.nome,
     preço: produto.preço,
@@ -14,7 +14,7 @@ function CardProduto({ produto, editarProduto, excluirProduto }) {
   }
 
   return (
-    <div className="produto">
+    <div className={darkMode ? "produtoDark":"produto"}>
       {editando ? (
         <div className="inputs-produto">
           <input
