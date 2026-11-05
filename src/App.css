@@ -19,9 +19,14 @@ form {
   border-radius: 10px;
   margin-bottom: 50px;
 }
+.button-darkMode{
+  gap: 0px;
+}
 form > h1 {
   text-align: center;
   font-size: 35px;
+  margin: 0px;
+  margin-bottom: 20px;
   color: white;
 }
 input {
