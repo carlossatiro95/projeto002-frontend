@@ -3,6 +3,14 @@ import "./App.css";
 import CardFunc from "./componentes/CardFunc";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(() =>
+    JSON.parse(localStorage.getItem("keyDarkMode")),
+  );
+
+  useEffect(() => {
+    localStorage.setItem("keyDarkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
+
   const [dadosFuncionario, setDadosFuncionario] = useState({
     nome: "",
     cpf: "",
@@ -101,7 +109,14 @@ function App() {
   return (
     <div className="container">
       <div className="box-form">
-        <form onSubmit={enviarDados}>
+        <form onSubmit={enviarDados} className={darkMode ? "darkMode" : ""}>
+          <button
+            type="button"
+            className="button-darkMode"
+            onClick={() => setDarkMode(!darkMode)}
+          >
+            Tema
+          </button>
           <h1>Cadastro de Funcionarios</h1>
           <input
             type="text"
