@@ -1,20 +1,4 @@
 {
-  "funcionarios": [
-    {
-      "nome": "carlos",
-      "cpf": "123",
-      "id": "x3gQkAb0ntE"
-    },
-    {
-      "nome": "raissa",
-      "cpf": "000",
-      "id": "xbAdWAg-p3k"
-    },
-    {
-      "nome": "lucas",
-      "cpf": "999",
-      "id": "NXV7vl2Hboc"
-    }
-  ],
+  "funcionarios": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

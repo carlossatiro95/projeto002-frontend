@@ -41,6 +41,63 @@ function App() {
     } catch (error) {}
   }
 
+  async function editarDadosFuncionario(
+    idFuncionario,
+    dadosEditadoFuncionario,
+  ) {
+    try {
+      const resultado = await fetch(
+        `http://localhost:3000/funcionarios/${idFuncionario}`,
+        {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(dadosEditadoFuncionario),
+        },
+      );
+
+      const dadosAtualizadoFuncionario = await resultado.json();
+
+      setListaFuncionarios(
+        listaFuncionarios.map((dadosFuncionarioMap) =>
+          dadosFuncionarioMap.id === dadosAtualizadoFuncionario.id
+            ? dadosAtualizadoFuncionario
+            : dadosFuncionarioMap,
+        ),
+      );
+    } catch (error) {}
+  }
+
+  async function excluirFuncionario(idFuncionario) {
+    try {
+      await fetch(`http://localhost:3000/funcionarios/${idFuncionario}`, {
+        method: "DELETE",
+      });
+
+      setListaFuncionarios(
+        listaFuncionarios.filter(
+          (dadosFuncionarioFilter) =>
+            dadosFuncionarioFilter.id !== idFuncionario,
+        ),
+      );
+    } catch (error) {}
+  }
+  async function excluirTudo() {
+    try {
+      await Promise.all(
+        listaFuncionarios.map((dadosFuncionarioMap) =>
+          fetch(
+            `http://localhost:3000/funcionarios/${dadosFuncionarioMap.id}`,
+            {
+              method: "DELETE",
+            },
+          ),
+        ),
+      );
+
+      setListaFuncionarios([]);
+    } catch (error) {}
+  }
+
   return (
     <div className="container">
       <div className="box-form">
@@ -70,10 +127,14 @@ function App() {
           <CardFunc
             key={dadosFuncionarioMap.id}
             dadosFuncionarioCard={dadosFuncionarioMap}
+            editarDadosFuncionarioCard={editarDadosFuncionario}
+            excluirFuncionarioCard={excluirFuncionario}
           />
         ))}
         {listaFuncionarios.length > 0 && (
-          <button className="delete-all">Excluir Tudo</button>
+          <button className="delete-all" onClick={excluirTudo}>
+            Excluir Tudo
+          </button>
         )}
       </div>
     </div>
