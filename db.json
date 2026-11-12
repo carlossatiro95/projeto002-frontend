@@ -1,4 +1,15 @@
 {
-  "funcionarios": [],
+  "funcionarios": [
+    {
+      "nome": "",
+      "cpf": "",
+      "id": "nqu7ouyoZpA"
+    },
+    {
+      "nome": "hhhhh",
+      "cpf": "34343",
+      "id": "7T43Zvdmxm4"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
